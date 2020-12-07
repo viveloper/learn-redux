@@ -8,6 +8,7 @@ function User({ store }) {
       setUser(store.getState().user);
     });
   }, [store]);
+
   const handleClick = () => {
     fetchUser('id').then((user) => {
       store.dispatch({
@@ -18,6 +19,7 @@ function User({ store }) {
       });
     });
   };
+
   console.log('render User');
   return (
     <div>
