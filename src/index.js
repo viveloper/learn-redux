@@ -4,17 +4,45 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import rootReducer from './modules';
+import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-const store = createStore(rootReducer, composeWithDevTools());
+const initialState = {
+  todos: [],
+  user: {
+    name: 'kim',
+  },
+};
+
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return {
+        ...state,
+        todos: [...state.todos, action.todo],
+      };
+    case 'SET_USER':
+      return {
+        ...state,
+        user: action.user,
+      };
+    default:
+      return state;
+  }
+};
+
+const printLog = (store) => (next) => (action) => {
+  console.log(store.getState());
+  const result = next(action);
+  console.log(store.getState());
+  return result;
+};
+
+const store = createStore(reducer, applyMiddleware(printLog));
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <App store={store} />
   </React.StrictMode>,
   document.getElementById('root')
 );

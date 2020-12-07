@@ -1,13 +1,14 @@
 import React from 'react';
-import CounterContainer from './containers/CounterContainer';
-import TodosContainer from './containers/TodosContainer';
+import InputForm from './components/InputForm';
+import Todos from './components/Todos';
+import User from './components/User';
 
-function App() {
+function App({ store }) {
   return (
     <>
-      <CounterContainer />
-      <hr />
-      <TodosContainer />
+      <User store={store} />
+      <InputForm store={store} />
+      <Todos store={store} />
     </>
   );
 }
